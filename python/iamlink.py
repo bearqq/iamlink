@@ -10,13 +10,6 @@ pluginList = []
 forwardQueue = []
 ecode = 0
 
-tmpmod = __import__('IALPlugin_weather')
-tmpclass = getattr(tmpmod, 'IALPlugin_weather')
-tmpobj = new.instance(tmpclass)
-tmpobj.sendQueue = forwardQueue
-pluginList.append(tmpobj)
-thread.start_new_thread(tmpobj.launch, ())
-
 tmpmod = __import__('IALPlugin_sender')
 tmpclass = getattr(tmpmod, 'IALPlugin_sender')
 tmpobj = new.instance(tmpclass)
