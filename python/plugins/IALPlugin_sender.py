@@ -8,10 +8,11 @@ class IALPlugin_sender:
     keyword = ["sender"]
     sendQueue = []
     recvQueue = []
+    __sid = "ozblsgowucexqyj7"
 
     def __send(self, dst, dstKeyword, cmd):
-        print "IALPlugin_sender Send " + cmd + " to " + dstKeyword
-        tpkt = IALCmdPacket("sender", dst, dstKeyword, cmd)
+        #print "IALPlugin_sender Send " + cmd + " to " + dstKeyword
+        tpkt = IALCmdPacket("sender", dst, dstKeyword, cmd, self.__sid)
         self.sendQueue.append(tpkt)
 
     def __main(self):
@@ -27,7 +28,8 @@ class IALPlugin_sender:
         while not self.ecode:
             while self.recvQueue:
                 thePacket = self.recvQueue.pop(0)
-                print "IALPlugin_sender Recv \"" + thePacket.cmd + "\" From " + thePacket.src
+                #print "IALPlugin_sender Recv \"" + thePacket.cmd + "\" From " + thePacket.src
+                print thePacket.cmd
 
     def launch(self):
         self.__main()

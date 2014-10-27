@@ -33,6 +33,13 @@ tmpobj.sendQueue = forwardQueue
 pluginList.append(tmpobj)
 thread.start_new_thread(tmpobj.launch, ())
 
+tmpmod = __import__('IALPlugin_pathfinding')
+tmpclass = getattr(tmpmod, 'IALPlugin_pathfinding')
+tmpobj = new.instance(tmpclass)
+tmpobj.sendQueue = forwardQueue
+pluginList.append(tmpobj)
+thread.start_new_thread(tmpobj.launch, ())
+
 makeIndex()
 
 while not ecode:
@@ -42,11 +49,11 @@ while not ecode:
         if (not thePacket.dst) and thePacket.dstKeyword:
             thePacket.dst = keywordIndex.get(thePacket.dstKeyword, thePacket.src)
             if not cmp(thePacket.dst, thePacket.src):
-                print "Plugin not found, now send pkt back to src"
+                #print "Plugin not found, now send pkt back to src"
                 thePacket.src = "System"
                 thePacket.cmd = "No Such Plugin"
-            else:
-                print "Plugin found:" + thePacket.dst
+            #else:
+                #print "Plugin found:" + thePacket.dst
         for pq in pluginList:
             if not cmp(pq.name, thePacket.dst):
                 pq.recvQueue.append(thePacket)
