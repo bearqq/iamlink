@@ -18,7 +18,7 @@ class IALPlugin_sender:
     def __main(self):
         thread.start_new_thread(self.__recv, ())
         while self.ecode == 0:
-            uinput = raw_input("\nWhat do you want to do：")
+            uinput = raw_input("\nWhat do you want to do:")
             if uinput:
                 tstr = uinput.split(' ', 1)
                 if len(tstr) == 2 and tstr[1]:

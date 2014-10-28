@@ -7,6 +7,13 @@ import json
 import re
 from IALCmdPacket import *
 
+
+def codeiss(data):#decode
+	try:
+		return data.decode("GBK")
+	except:
+		return data.decode("UTF-8")
+			
 class pfTicket:
 
     def __init__(self, tktSrc, origin, dest, issug, suglist, sugchoice, finalpath, times):
@@ -44,17 +51,19 @@ class IALPlugin_pathfinding:
     __url_geocoder = "http://api.map.baidu.com/geocoder/v2/?"
     __url_direction = "http://api.map.baidu.com/direction/v1?"
     __url_place = "http://api.map.baidu.com/place/v2/suggestion?"
+	
+
 
     def __getsug(self, loc):
         ret = []
         url = self.__url_place + "query=" + loc + "&region=" + self.__REGION + "&output=" + self.__OUTPUT + "&ak=" + self.__AK
-        jsonobj = urlopen(url).read()
+        jsonobj = codeiss(urlopen(url).read())
         suginfo = json.loads(jsonobj, encoding="UTF-8")
         if suginfo.has_key("result"):
             for sug in suginfo["result"]:
                 if sug.has_key("name") and sug.has_key("city"):
                     if sug["city"]:
-                        ret.append(sug["name"].encode("utf-8"))
+                        ret.append(sug["name"])
         if not ret or suginfo["status"]:
             ret = 0
         return ret
@@ -62,7 +71,7 @@ class IALPlugin_pathfinding:
     def __getcood(self, loc):
         ret = 0
         url = self.__url_geocoder + "address=" + loc + "&city=" + self.__REGION + "&output=" + self.__OUTPUT + "&ak=" + self.__AK
-        jsonobj = urlopen(url).read()
+        jsonobj = codeiss(urlopen(url).read())
         coodinfo = json.loads(jsonobj)
         if coodinfo.has_key("result"):
             if coodinfo["result"].has_key("location"):
@@ -72,7 +81,7 @@ class IALPlugin_pathfinding:
     def __getpath(self, origincood, destcood):
         ret = []
         url = self.__url_direction + "mode=" + self.__MODE + "&origin=" + origincood + "&destination=" + destcood + "&region=" + self.__REGION + "&tactics=" + self.__TACTICS + "&output=" + self.__OUTPUT + "&ak=" + self.__AK
-        jsonobj = urlopen(url).read()
+        jsonobj = codeiss(urlopen(url).read())
         pathinfo = json.loads(jsonobj)
         if pathinfo.has_key("result"):
             if pathinfo["result"].has_key("routes"):
@@ -85,7 +94,7 @@ class IALPlugin_pathfinding:
                             for steps in stepsP:
                                 if steps.has_key("stepInstruction"):
                                     tstr = re.sub("<[/]?b>|<[/]?font.*?(t|\")?>", "", steps["stepInstruction"])
-                                    ret.append(tstr.encode("utf-8"))
+                                    ret.append(tstr)
         if not ret or pathinfo["status"]:
             ret = 0
         return ret

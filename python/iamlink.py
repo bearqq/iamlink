@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 sys.path.append(sys.path[0]+"/core")
 sys.path.append(sys.path[0]+"/plugins")
 import time
