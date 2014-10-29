@@ -9,11 +9,11 @@ from IALCmdPacket import *
 
 
 def codeiss(data):#decode
-	try:
-		return data.decode("GBK")
-	except:
-		return data.decode("UTF-8")
-			
+    try:
+        return data.decode("GBK")
+    except:
+        return data.decode("UTF-8")
+
 class pfTicket:
 
     def __init__(self, tktSrc, origin, dest, issug, suglist, sugchoice, finalpath, times):
@@ -31,7 +31,7 @@ class IALPlugin_pathfinding:
     ecode = 0
     __sid = "e46jlg03vw2t6ff0"
     name = "pathfinding"
-    keyword = ["pathfinding", "path", "寻路"]
+    keyword = ["pathfinding", "path", u"寻路"]
     sendQueue = []
     recvQueue = []
     procQueue = {}
@@ -51,7 +51,7 @@ class IALPlugin_pathfinding:
     __url_geocoder = "http://api.map.baidu.com/geocoder/v2/?"
     __url_direction = "http://api.map.baidu.com/direction/v1?"
     __url_place = "http://api.map.baidu.com/place/v2/suggestion?"
-	
+
 
 
     def __getsug(self, loc):
@@ -98,7 +98,7 @@ class IALPlugin_pathfinding:
         if not ret or pathinfo["status"]:
             ret = 0
         return ret
-                        
+
 
     def __pathfinding(self, origin, dest):
         ret = []
@@ -165,7 +165,7 @@ class IALPlugin_pathfinding:
                     self.__send(v.tktSrc, cmd)
                     cmd = ""
                     del self.procQueue[k]
-            
+
 
     def __uncomphandler(self):
         while not self.ecode:
@@ -185,7 +185,7 @@ class IALPlugin_pathfinding:
                         v.times -= 1
                         self.procQueue[k] = v
                         del self.uncompQueue[k]
-        
+
 
     def __send(self, dst, cmd):
         #print "IALPlugin_pathfinding Send Reply \"" + cmd + "\" to " + dst
